@@ -8,3 +8,4 @@ class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
         fields = ['CustomerName', 'Address', 'Agreement', 'AgreementDate', 'ExpireDate', 'OtherFiles']
+  
