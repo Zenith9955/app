@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Onremote inhouse software</title>
+  <link rel="stylesheet" href="master.css">
+</head>
+
+<style>
+/* Reset default styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Header styles */
+header {
+  background-color: #ffffff;
+  color: #333; /* Dark gray */
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo img {
+  height: 90px; /* Adjusted logo size */
+}
+
+/* Navigation styles */
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li {
+  display: inline-block;
+}
+
+nav ul li a {
+  color: #333; /* Dark gray */
+  text-decoration: none;
+  padding: 15px 20px; /* Reduced padding */
+  display: block;
+  transition: background-color 0.3s; /* Smooth hover effect */
+}
+
+nav ul li a:hover {
+  background-color: #e0e0e0; /* Lighter gray on hover */
+}
+
+/* Dropdown styles */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9; /* Light gray */
+  min-width: 200px;
+  z-index: 1;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.dropdown-content a {
+  color: #333; /* Dark gray */
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #e0e0e0; /* Lighter gray on hover */
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown button {
+  background-color: #ababab; /* Green background */
+  color: white; /* White text color */
+  border: none; /* No border */
+  padding: 05px 10px; /* Padding */
+  text-align: center; /* Center text */
+  text-decoration: none; /* No underline */
+  display: inline-block;
+  font-size: 14px; /* Font size */
+  cursor: pointer; /* Cursor on hover */
+  border-radius: 4px; /* Rounded corners */
+}
+
+.dropdown button:hover {
+  background-color: #333; /* Darker green background on hover */
+}
+
+/* CSS for the Welcome message and authenticated user greeting */
+h3 {
+  margin-top: 20px; /* Adjust the top margin as needed */
+}
+
+/* CSS for the authenticated user greeting */
+h3 {
+  font-size: 24px; /* Adjust font size as needed */
+  color: #333; /* Dark gray */
+}
+
+h4 {
+  font-size: 18px; /* Adjust font size as needed */
+  color: #666; /* Gray */
+  margin-top: 10px; /* Adjust margin as needed */
+}
+/* CSS for the Sign Out link */
+a.signout-link {
+  color: #333; /* Dark gray text color */
+  text-decoration: none; /* Remove underline */
+  padding: 10px 20px; /* Add padding */
+  border: 1px solid #333; /* Add border */
+  border-radius: 4px; /* Add rounded corners */
+  background-color: #fff; /* White background */
+}
+
+a.signout-link:hover {
+  background-color: #e0e0e0; /* Light gray background on hover */
+  color: #000; /* Darken text color on hover */
+}
+
+
+</style>
+
+<body>
+  <header>
+    <div class="logo">
+      <img src="{% static 'logo.jpg' %}" alt="Logo">
+    </div>
+    <nav>
+      <ul>
+        <li class="dropdown">
+          <a href="#">Master &#9662;</a>
+          <div class="dropdown-content">
+            <a href="#">Vendor</a>
+            <a href="#" onclick="toggleForm()">Customer</a>
+            <a href="#">State</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#">Service &#9662;</a>
+          <div class="dropdown-content">
+            <a href="#">Fiber</a>
+            <a href="#">Bandwidth</a>
+            <a href="#">Managed Fiber</a>
+            <a href="#">Infra Solution</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#">Feasibility &#9662;</a>
+          <div class="dropdown-content">
+            <a href="#">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#">Customer Database &#9662;</a>
+          <div class="dropdown-content">
+            <a href="#">Manage Services</a>
+            <a href="vtl.html">Fiber Services</a>
+            <a href="#">Port Fiber</a>
+          </div>
+        </li>
+        <a href="{% url 'signout' %}">Sign Out</a>
+      </ul>
+    </nav>
+  </header>
+
+  <form id="customer-form" method="post" style="display: none;" enctype="multipart/form-data">
+      {% csrf_token %}
+      <h1>Customer Form</h1>
+      <label for="CustomerName">Customer Name:</label>
+      <input type="text" id="CustomerName" name="CustomerName" required>
+      <br>
+      <label for="Address">Address:</label>
+      <input type="text" id="Address" name="Address" required>
+      <br>
+      <label for="Agreement">Agreement:</label>
+      <input type="file" id="Agreement" name="Agreement" accept=".pdf, .doc, .docx" required>
+      <br>
+      <label for="AgreementDate">Agreement Date:</label>
+      <input type="date" id="AgreementDate" name="AgreementDate" required>
+      <br>
+      <label for="ExpireDate">Agreement Expire Date:</label>
+      <input type="date" id="ExpireDate" name="ExpireDate" required>
+      <br>
+      <label for="OtherFiles">Other Files:</label>
+      <input type="file" id="OtherFiles" name="OtherFiles" accept=".pdf, .doc, .docx">
+      <br>
+      <button type="submit">Submit</button>
+  </form>
+
+  <script>
+      function toggleForm() {
+          var form = document.getElementById("customer-form");
+          if (form.style.display === "none") {
+              form.style.display = "block";
+          } else {
+              form.style.display = "none";
+          }
+      }
+  </script>
+
+
+
+</body>
+</html>
