@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .forms import CustomerForm
+
 #create your views here
 
 def home(request):
@@ -56,14 +56,8 @@ def signout(request):
     messages.success(request, "Logged Out Successfully")
     return redirect("signin")
 
-def create_customer(request):
-    if request.method == 'POST':
-        form = CustomerForm(request.POST)
-        if form.is_valid():
-            # Process the form data
-            # For example, save the customer to the database
-            return redirect('success_page')  # Redirect to a success page
-    else:
-        form = CustomerForm()
-    return render(request, 'nezx/customer_form.html', {'form': form})
+# views.py
 
+def venform(request):
+    login(request, User)
+    return redirect("venform.html")
